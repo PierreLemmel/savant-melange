@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation';
+import CurvyBackground from '../components/CurvyBackground';
+import { cn } from '../lib/utils';
+
+// Lorem Ipsum generator helper
+const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+const sections = [
+  { id: 'le-projet', title: 'Le Projet', content: lorem + " " + lorem },
+  { id: 'qui-sommes-nous', title: 'Qui sommes-nous ?', content: lorem },
+  { id: 'dates', title: 'Dates à venir', content: "Prochaines dates : \n- 12 Janvier 2026 : Paris\n- 15 Février 2026 : Lyon" },
+  { id: 'passes', title: 'Événements passés', content: "Retour sur nos succès de 2025..." },
+  { id: 'pro', title: 'Espace Pro', content: "Contactez-nous pour vos événements..." },
+];
+---
+
+<Layout title="Savant Mélange - Théâtre d'Improvisation">
+	<CurvyBackground client:load />
+	<Navigation client:load />
+	
+	<main class="relative z-10 pt-32 px-4 md:px-8 max-w-5xl mx-auto space-y-32 pb-2">
+		
+		<section class="min-h-[60vh] flex flex-col justify-center items-center text-center space-y-8">
+			<h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter text-[#FDFD96]">
+				Savant<br/>Mélange
+			</h1>
+			<p class="text-xl md:text-2xl font-bold bg-[#E25822] p-4 rotate-1">
+				Quand sciences et impro se rencontrent
+			</p>
+		</section>
+
+		{sections.map((section, index) => (
+			<section id={section.id} class={cn(
+				"scroll-mt-32 p-8 md:p-12",
+				index % 2 === 0 ? '-rotate-1' : 'rotate-1'
+			)}>
+				<h2 class="text-4xl md:text-5xl font-black uppercase mb-8 text-[#87CEEB]">
+					{section.title}
+				</h2>
+				<div class="text-lg md:text-xl leading-relaxed whitespace-pre-line font-medium text-white">
+					{section.content}
+				</div>
+			</section>
+		))}
+
+		<footer class="text-center text-[#FDFD96] font-bold py-2">
+			<p>&copy; {new Date().getFullYear()} Savant Mélange. Tous droits réservés.</p>
+			<a href="/mentions-legales" class="underline hover:text-white">Mentions Légales</a>
+		</footer>
+	</main>
+</Layout>

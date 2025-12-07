@@ -1,0 +1,26 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title = "Savant Mélange", description = "Compagnie de théâtre d'improvisation et de mélange des genres." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<title>{title}</title>
+	</head>
+	<body class="bg-[#E25822] text-[#FDFD96] font-sans antialiased overflow-x-hidden selection:bg-[#87CEEB] selection:text-[#E25822]">
+		<slot />
+	</body>
+</html>
+
