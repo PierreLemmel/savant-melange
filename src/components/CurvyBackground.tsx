@@ -1,125 +1,188 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { randomRange } from '../lib/utils';
 
-const COLOR_1 = "#CD8285";
-const COLOR_2 = "#C14912";
+const COLOR_1 = "#c15325";
+const COLOR_2 = "#c7707e";
 
-const SCROLL_V_AMPLITUDE=0.2
-const SCROLL_H_AMPLITUDE=0.14;
+const SCROLL_V_AMPLITUDE=0.7
+const SCROLL_H_AMPLITUDE=0.5;
 
-const ROTATION_AMPLITUDE=3;
+const ROTATION_AMPLITUDE=4;
 
 const WAVE_COUNT = 8;
 
-const CANVAS_WIDTH = 1440;
-const CANVAS_HEIGHT = 1024;
+const CANVAS_WIDTH = 1000;
+const CANVAS_HEIGHT = 1000;
 
-
-type GenerateWavesProps = {
-  cw: number;
-  ch: number;
-  count: number;
-}
-
-function generateWavePathes(props: GenerateWavesProps) {
-  const { cw, ch, count } = props;
-  return Array.from({ length: count }, (_, i) => ({
-    d: `M-200,${100 + i * 120} C100,50 400,150 720,${100 + i * 120} S1300,50 1640,${100 + i * 120} V1024 H-200 Z`
-  }));
-}
-
-type GenerateWavePathProps = {
-  y0: number;
-  width: number;
-  height: number;
-}
-
-function generateWavePath(props: GenerateWavePathProps) {
-  const { y0, width, height } = props;
-
-  return ``;
-}
-
+const CURVES_MARGIN = 200;
 
 export default function CurvyBackground() {
 	const containerRef = useRef<HTMLDivElement>(null);
-	const pathsRef = useRef<(SVGPathElement | null)[]>([]);
+	const [isMounted, setIsMounted] = useState(false);
 
-  const updateBackground = useCallback(() => {
-    const scroll = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollRatio = docHeight > 0 ? scroll / docHeight : 0;
-    
+	const updateBackground = useCallback(() => {
+		const scroll = window.scrollY;
+		const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+		const scrollRatio = docHeight > 0 ? scroll / docHeight : 0;
+		
 
-    if (containerRef.current) {
-      const verticalOffset = scrollRatio * SCROLL_V_AMPLITUDE * window.innerHeight;
-      const horizontalOffset = 0//-SCROLL_H_AMPLITUDE * window.innerWidth / 2;
-      containerRef.current.style.transform = `translate3d(${horizontalOffset}px, ${verticalOffset}px, 0)`;
-    }
-    
-    pathsRef.current.forEach((path, i) => {
-      if (path) {
-        const rotation = (i % 4 < 2 ? 1 : -1) * (1 - scrollRatio) * ROTATION_AMPLITUDE / 2;
-        const translateX = (i % 2 === 0 ? -1 : 1) * (SCROLL_H_AMPLITUDE * window.innerWidth / 2);
-        path.style.transform = `translate3d(${translateX}px, 0, 0) rotate(${rotation}deg)`;
-      }
-    });
-  }, []);
+		if (containerRef.current) {
+			const verticalOffset = -(1 - scrollRatio) * SCROLL_V_AMPLITUDE * window.innerHeight;
+			containerRef.current.style.transform = `translateY(${verticalOffset}px)`;
+		}
+	}, []);
 
   
 	useEffect(() => {
-    updateBackground();
+		setIsMounted(true);
+		updateBackground();
 		const handleScroll = () => {
-      updateBackground();
+			updateBackground();
 		};
 
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
+	}, [updateBackground, isMounted]);
+
+
+
+	const waves = useMemo(() => {
+
+		const hInterval = CANVAS_HEIGHT / (2 * WAVE_COUNT);
+		const waveData = Array.from({ length: WAVE_COUNT }, (_, i) => ({
+			y0: 2 * i * hInterval,
+			height: hInterval,
+			index: i,
+			color: COLOR_2
+		}));
+
+		return waveData;
+	}, [CANVAS_HEIGHT, WAVE_COUNT])
+	
+	const containerSize = 100 * Math.max(1 + SCROLL_V_AMPLITUDE, 1 + SCROLL_H_AMPLITUDE)
+
+	if (!isMounted) return null;
+
+	return <div className="fixed inset-0 -z-10 overflow-hidden">
+		<div className="absolute left-0" style={{
+			width: `${containerSize}%`,
+			height: `${containerSize}%`,
+			transform: `translateX(-${SCROLL_H_AMPLITUDE * window.innerWidth / 2}px)`,
+			backgroundColor: COLOR_1
+		}}>
+        <div ref={containerRef} className="w-full h-full absolute left-0">
+			<svg
+				className="w-full h-full"
+				viewBox={`0 0 ${CANVAS_WIDTH} ${CANVAS_HEIGHT}`}
+				xmlns="http://www.w3.org/2000/svg"
+				preserveAspectRatio="xMidYMid slice"
+			>
+				{waves.map((wave, i) => <WavyPath key={i} {...wave} />)}
+			</svg>
+			</div>
+		</div>
+	</div>
+}
+
+type WavyPathProps = {
+	y0: number;
+	height: number;
+	index: number;
+	color: string;
+}
+
+function generateWaveInitialData(height: number) {
+	const c1 = [
+		randomRange(100, 200),
+		randomRange(80, 180)
+	];
+
+	const c2 = [
+		randomRange(800, 900),
+		-randomRange(70, 170)
+	];
+
+	const c3 = [
+		randomRange(800, 900),
+		-randomRange(70, 170) + height
+	];
+
+	const c4 = [
+		randomRange(100, 200),
+		randomRange(80, 180) + height
+	];
+
+	const r0 = randomRange(-1, 0);
+	const tx0 = randomRange(-1, 0);
+
+	return { c1, c2, c3, c4, r0, tx0 };
+}
+
+function WavyPath(props: WavyPathProps) {
+	const {
+		y0,
+		height,
+		index: i,
+		color
+	} = props;
+
+	const pathRef = useRef<SVGPathElement>(null);
+
+	const waveData = useMemo<ReturnType<typeof generateWaveInitialData>>(() => generateWaveInitialData(height), [height]);
+
+	const updatePath = useCallback(() => {
+
+		const { r0, tx0 } = waveData;
+		const scroll = window.scrollY;
+		const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+		const scrollRatio = docHeight > 0 ? scroll / docHeight : 0;
+
+		const path = pathRef.current;
+		if (path) {
+
+			const rotationA = Math.abs(r0 + scrollRatio);
+			const translateXA = Math.abs(tx0 + scrollRatio);
+
+			const rotation = (i % 4 < 2 ? 1 : -1) * rotationA * ROTATION_AMPLITUDE / 2;
+			const translateX = (i % 2 === 0 ? -1 : 1) * translateXA * SCROLL_H_AMPLITUDE * window.innerWidth / 2;
+
+			path.style.transform = `translate3d(${translateX}px, ${y0}px, 0) rotate(${rotation}deg)`;
+		}
+	}, [waveData, y0, i]);
+
+	useEffect(() => {
+		updatePath();
+		window.addEventListener('scroll', updatePath);
+		return () => window.removeEventListener('scroll', updatePath);
+	}, [updatePath]);
+
+	const transformOrigin = useMemo(() => {
+		return `${randomRange(0.2, 0.8) * 100}% 50%`
 	}, []);
 
+	const d = useMemo(() => {
+		const { c1, c2, c3, c4 } = waveData;
+		const start = [-CURVES_MARGIN, 0];
+		const end = [CANVAS_WIDTH + CURVES_MARGIN, 0];
 
+		const result = [
+			`M${start[0]},${start[1]}`,
+			`C${c1[0]},${c1[1]} ${c2[0]},${c2[1]} ${end[0]},${end[1]}`,
+			`V${end[1] + height}`,
+			`C${c3[0]},${c3[1]} ${c4[0]},${c4[1]} ${start[0]},${start[1] + height}`,
+			`Z`
+		].join(' ');
 
-	const waves = useMemo(() => [
-		{ d: "M-200,100 C100,50 400,150 720,100 S1300,50 1640,100 V1024 H-200 Z" },
-		{ d: "M-200,220 C150,250 450,180 720,220 S1250,260 1640,220 V1024 H-200 Z" },
-		{ d: "M-200,340 C100,300 400,400 720,340 S1300,300 1640,340 V1024 H-200 Z" },
-		{ d: "M-200,460 C200,500 500,420 720,460 S1200,500 1640,460 V1024 H-200 Z" },
-		{ d: "M-200,580 C150,540 450,620 720,580 S1350,540 1640,580 V1024 H-200 Z" },
-		{ d: "M-200,700 C100,750 400,650 720,700 S1300,750 1640,700 V1024 H-200 Z" },
-		{ d: "M-200,820 C200,780 500,860 720,820 S1250,780 1640,820 V1024 H-200 Z" },
-		{ d: "M-200,940 C150,980 450,900 720,940 S1300,980 1640,940 V1024 H-200 Z" },
-	], []);
-
-  const waves2 = useMemo(() => Array.from({ length: WAVE_COUNT }, (_, i) => ({
-    d: `M-200,${100 + i * 120} C100,50 400,150 720,${100 + i * 120} S1300,50 1640,${100 + i * 120} V1024 H-200 Z`
-  })), []);
-
-	return (
-		<div className="fixed inset-0 -z-10 overflow-hidden">
-      <div className="w-full h-full absolute left-0" style={{
-        transform: `scale(${Math.max(1 + SCROLL_V_AMPLITUDE, 1 + SCROLL_H_AMPLITUDE)})`,
-        backgroundColor: COLOR_1
-      }}>
-        <div ref={containerRef} className="w-full h-full absolute left-0">
-          <svg
-            className="w-full h-full"
-            viewBox={`0 0 ${CANVAS_WIDTH} ${CANVAS_HEIGHT}`}
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="xMidYMid slice"
-          >
-            {waves.map((wave, i) => (
-              <path
-                style={{
-                  transformOrigin: `${((i % 4) + 1) * 20}% 50%`
-                }}
-                key={i}
-                ref={el => { pathsRef.current[i] = el; }}
-                d={wave.d}
-                fill={i % 2 === 0 ? COLOR_1 : COLOR_2}
-              />
-            ))}
-          </svg>
-        </div>
-      </div>
-		</div>
-	);
+		return result;
+	}, [waveData]);
+	
+	return <path
+		ref={pathRef}
+		style={{
+			transformOrigin
+		}}
+		d={d}
+		fill={color}
+	/>
 }
+
