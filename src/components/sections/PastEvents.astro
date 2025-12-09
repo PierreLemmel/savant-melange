@@ -1,0 +1,11 @@
+---
+import Section from './Section.astro';
+
+const {
+    class: className,
+    leftToRight = true,
+} = Astro.props;
+---
+<Section id="passes" title="Événements passés" class={className} leftToRight={leftToRight}>
+    Retour sur nos succès de 2025...
+</Section>

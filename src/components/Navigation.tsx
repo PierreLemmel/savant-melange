@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { cn } from '../lib/utils';
 
 const sections = [
 	{ id: 'le-projet', label: 'Le Projet' },
@@ -32,7 +33,9 @@ export default function Navigation() {
     return () => observer.disconnect();
   }, []);
 
-  	return <nav className="fixed top-0 left-0 right-0 z-50 bg-[#E25822]/90 backdrop-blur-sm border-b-2 border-[#FDFD96] py-4 px-6 shadow-lg">
+  	return <nav className={cn(
+		"fixed top-0 left-0 right-0 z-50 bg-black backdrop-blur-sm py-4 px-6 shadow-lg",
+	)}>
 		<div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
 			<div className="text-2xl font-bold uppercase tracking-tighter text-[#FDFD96] drop-shadow-md">
 				<a href="#" className="hover:text-white transition-colors">Savant Mélange</a>

@@ -14,7 +14,7 @@ const WAVE_COUNT = 8;
 const CANVAS_WIDTH = 1000;
 const CANVAS_HEIGHT = 1000;
 
-const CURVES_MARGIN = 200;
+const CURVES_MARGIN = 500;
 
 export default function CurvyBackground() {
 	const containerRef = useRef<HTMLDivElement>(null);

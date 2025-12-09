@@ -1,0 +1,13 @@
+---
+import Section from './Section.astro';
+
+const {
+    class: className,
+    leftToRight = true,
+} = Astro.props;
+---
+<Section id="dates" title="Dates à venir" class={className} leftToRight={leftToRight}>
+Prochaines dates : 
+- 12 Janvier 2026 : Paris
+- 15 Février 2026 : Lyon
+</Section>
