@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { cn, lerp, clamp, inverseLerp } from '../lib/utils';
+import { cn, lerp, clamp, inverseLerp, isBetween } from '../lib/utils';
 
 type IntersectValue = {
     before: {
@@ -26,8 +26,8 @@ const intersectableValues: Record<string, IntersectValue> = {
     translate: {
         before: {
             value: 100,
-            startThreshold: 0.2,
-            stopThreshold: 0.4,
+            startThreshold: 0.17,
+            stopThreshold: 0.35,
         },
         atIntersect: 0,
         after: {
@@ -38,22 +38,22 @@ const intersectableValues: Record<string, IntersectValue> = {
     },
     rotation: {
         before: {
-            value: -10,
-            startThreshold: 0.2,
-            stopThreshold: 0.4,
+            value: -25,
+            startThreshold: 0.17,
+            stopThreshold: 0.35,
         },
         atIntersect: 0,
         after: {
             value: 1.2,
-            startThreshold: 0.6,
-            stopThreshold: 0.8,
+            startThreshold: 0.5,
+            stopThreshold: 0.9,
         },
     },
     opacity: {
         before: {
-            value: 0.3,
-            startThreshold: 0.2,
-            stopThreshold: 0.4,
+            value: 0,
+            startThreshold: 0,
+            stopThreshold: 0.5,
         },
         atIntersect: 1,
         after: {
@@ -71,23 +71,26 @@ function getIntersectableValue(topProgress: number, bottomProgress: number, inte
         atIntersect,
         after,
     } = intersectableValue;
+
     if (topProgress < before.startThreshold) {
         return before.value;
     }
-    else if (topProgress < before.stopThreshold) {
+
+    if (isBetween(topProgress, before.startThreshold, before.stopThreshold)) {
         const beforeProgress = inverseLerp(before.startThreshold, before.stopThreshold, topProgress)
         return lerp(before.value, atIntersect, beforeProgress);
     }
-    else if (bottomProgress > after.stopThreshold) {
-        return after.value;
-    }
-    else if (bottomProgress > after.startThreshold) {
+
+    if (isBetween(bottomProgress, after.startThreshold, after.stopThreshold)) {
         const afterProgress = inverseLerp(after.startThreshold, after.stopThreshold, bottomProgress)
         return lerp(atIntersect, after.value, afterProgress);
     }
-    else {
-        return atIntersect;
+    
+    if (bottomProgress > after.stopThreshold) {
+        return after.value;
     }
+
+    return atIntersect;
 }
 
 export default function ScrollAnimatedSection(props: ScrollAnimatedSectionProps) {
@@ -99,27 +102,29 @@ export default function ScrollAnimatedSection(props: ScrollAnimatedSectionProps)
         leftToRight,
     } = props;
 
-    const sectionRef = useRef<HTMLElement | null>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const updateTransform = () => {
-            if (!sectionRef.current) return;
+            if (!contentRef.current || !containerRef.current) return;
 
-            const rect = sectionRef.current.getBoundingClientRect();
+            const containerRect = containerRef.current.getBoundingClientRect();
             const windowHeight = window.innerHeight;
-            const elementTop = rect.top;
-            const elementBottom = rect.bottom;
+            const elementTop = containerRect.top;
+            const elementBottom = containerRect.bottom;
 
             const topProgress = inverseLerp(windowHeight, 0, elementTop);
             const bottomProgress = inverseLerp(windowHeight, 0, elementBottom);
-
 
             const translate = getIntersectableValue(topProgress, bottomProgress, intersectableValues.translate) * (leftToRight ? -1 : 1);
             const rotation = getIntersectableValue(topProgress, bottomProgress, intersectableValues.rotation) * (leftToRight ? 1 : -1);
             const opacity = getIntersectableValue(topProgress, bottomProgress, intersectableValues.opacity);
 
-            sectionRef.current.style.transform = `translateX(${translate}vw) rotate(${rotation}deg)`;
-            sectionRef.current.style.opacity = opacity.toString();
+            contentRef.current.style.transform = `translateX(${translate}vw) rotate(${rotation}deg)`;
+            contentRef.current.style.opacity = opacity.toString();
+
+            containerRef.current.style.height = `${contentRef.current.getBoundingClientRect().height}px`;
         };
 
         updateTransform();
@@ -132,15 +137,21 @@ export default function ScrollAnimatedSection(props: ScrollAnimatedSectionProps)
         };
     }, [intersectableValues, leftToRight]);
 
-    return <section
-        ref={sectionRef}
+    return <div
         id={id}
+        ref={containerRef}
         className={cn(
+            "relative w-full",
             "will-change-transform",
-            leftToRight ? "origin-left" : "origin-right",
+            leftToRight ? "origin-top-left" : "origin-top-right",
             className
         )}
     >
-        {children}
-    </section>
+        <div
+            className="absolute w-full"
+            ref={contentRef}
+        >
+            {children}
+        </div>
+    </div>
 }

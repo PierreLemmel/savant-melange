@@ -18,3 +18,7 @@ export function inverseLerp(a: number, b: number, value: number) {
 	if (a === b) return 0;
 	return (value - a) / (b - a);
 }
+
+export function isBetween(value: number, min: number, max: number) {
+	return value >= min && value <= max;
+}

@@ -7,6 +7,7 @@ import About from '../components/sections/About.astro';
 import UpcomingDates from '../components/sections/UpcomingDates.astro';
 import PastEvents from '../components/sections/PastEvents.astro';
 import ProSpace from '../components/sections/ProSpace.astro';
+import { cn } from '../lib/utils';
 
 let i = 0;
 const alternateLeftRight = () => i++ % 2 === 0;
@@ -16,9 +17,12 @@ const alternateLeftRight = () => i++ % 2 === 0;
 	<CurvyBackground client:load />
 	<Navigation client:load />
 	
-	<main class="relative z-10 pt-32 px-4 md:px-8 max-w-5xl mx-auto space-y-32 pb-2">
+	<main class={cn(
+		"relative z-10 pt-32 px-4 md:px-8 max-w-5xl mx-auto space-y-32 pb-2",
+		"flex flex-col gap-4 items-stretch"
+	)}>
 		
-		<section class="min-h-[60vh] flex flex-col justify-center items-center text-center space-y-8">
+		<section class="flex flex-col justify-center items-center text-center space-y-8">
 			<h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter text-[#FDFD96]">
 				Savant<br/>Mélange
 			</h1>
