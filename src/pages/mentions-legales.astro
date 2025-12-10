@@ -1,0 +1,58 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation';
+import CurvyBackground from '../components/CurvyBackground';
+import { cn } from '../lib/utils';
+---
+
+<Layout title="Mentions Légales - Savant Mélange">
+    <CurvyBackground client:load />
+    <Navigation client:load />
+    
+    <main class={cn(
+        "relative z-10 pt-32 px-4 md:px-8 max-w-5xl mx-auto space-y-8 pb-16"
+    )}>
+        <section class="flex flex-col space-y-6">
+            <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#FDFD96]">
+                Mentions Légales
+            </h1>
+            
+            <div class="space-y-6 text-[#FDFD96]">
+                <div>
+                    <h2 class="text-2xl font-bold mb-3">Lorem Ipsum</h2>
+                    <p class="text-base leading-relaxed">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                    </p>
+                </div>
+                
+                <div>
+                    <h2 class="text-2xl font-bold mb-3">Sed Ut Perspiciatis</h2>
+                    <p class="text-base leading-relaxed">
+                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+                    </p>
+                </div>
+                
+                <div>
+                    <h2 class="text-2xl font-bold mb-3">Neque Porro</h2>
+                    <p class="text-base leading-relaxed">
+                        Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
+                    </p>
+                </div>
+                
+                <div>
+                    <h2 class="text-2xl font-bold mb-3">At Vero Eos</h2>
+                    <p class="text-base leading-relaxed">
+                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="pt-8">
+                <a href="/" class="text-[#87CEEB] hover:text-white underline font-bold transition-colors">
+                    ← Retour à l'accueil
+                </a>
+            </div>
+        </section>
+    </main>
+</Layout>
+

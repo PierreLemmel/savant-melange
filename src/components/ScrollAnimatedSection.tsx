@@ -141,7 +141,7 @@ export default function ScrollAnimatedSection(props: ScrollAnimatedSectionProps)
         id={id}
         ref={containerRef}
         className={cn(
-            "relative w-full",
+            "relative",
             "will-change-transform",
             leftToRight ? "origin-top-left" : "origin-top-right",
             className

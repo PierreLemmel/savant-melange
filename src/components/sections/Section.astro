@@ -16,11 +16,13 @@ const {
 } = Astro.props
 
 const leftToRightClass = cn(
-    "text-left"
+    "text-left",
+    "lg:mr-auto"
 )
 
 const rightToLeftClass = cn(
-    "text-right"
+    "text-right",
+    "lg:ml-auto"
 )
 
 ---
@@ -30,11 +32,12 @@ const rightToLeftClass = cn(
     id={id}
     leftToRight={leftToRight}
     className={cn(
+        "w-full lg:w-[90%]",
         className,
         leftToRight ? leftToRightClass : rightToLeftClass
     )}
 >
-    <h2 class="text-4xl md:text-5xl font-black uppercase mb-8 text-[#87CEEB]">
+    <h2 class="text-4xl md:text-5xl font-black uppercase mb-8 text-accent1">
         {title}
     </h2>
     <div class="text-lg md:text-xl leading-relaxed whitespace-pre-line font-medium text-white">

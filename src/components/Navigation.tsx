@@ -45,17 +45,17 @@ export default function Navigation() {
   	return <nav className={cn(
 		"fixed top-0 left-0 right-0 z-50 backdrop-blur-sm py-4 px-6 shadow-lg",
 	)}>
-		<div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-			<div className="w-full md:w-auto flex justify-between items-center">
-				<div className="text-2xl font-bold uppercase tracking-tighter text-[#FDFD96] drop-shadow-md">
+		<div className="max-w-7xl mx-auto flex flex-col xl:flex-row justify-between items-center gap-4">
+			<div className="w-full xl:w-auto flex justify-between items-center">
+				<div className="text-2xl font-bold uppercase tracking-tighter text-accent2 drop-shadow-md">
 					<a href="#" className="hover:text-white transition-colors">Savant Mélange</a>
-					<span className="mx-2 text-[#87CEEB]">{'>'}</span>
-					<span className="text-[#87CEEB] text-lg">{sections.find(s => s.id === activeSection)?.label || 'Accueil'}</span>
+					<span className="mx-2 text-accent1">{'>'}</span>
+					<span className="text-accent1 text-lg">{sections.find(s => s.id === activeSection)?.label || 'Accueil'}</span>
 				</div>
 				
 				<button
 					onClick={toggleMobileMenu}
-					className="md:hidden text-[#FDFD96] hover:text-white transition-colors focus:outline-none"
+					className="xl:hidden text-accent2 hover:text-white transition-colors focus:outline-none"
 					aria-label="Toggle menu"
 					aria-expanded={isMobileMenuOpen}
 				>
@@ -77,18 +77,22 @@ export default function Navigation() {
 				</button>
 			</div>
 			
-			<ul className={`${isMobileMenuOpen ? 'flex' : 'hidden'} md:flex flex-col md:flex-row md:flex-wrap justify-center gap-4 md:gap-8 w-full md:w-auto`}>
+			<ul className={cn(
+				"xl:flex flex-col xl:flex-row xl:flex-wrap justify-center gap-4 xl:gap-8 w-full xl:w-auto",
+				isMobileMenuOpen ? 'flex' : 'hidden'
+			)}>
 			{sections.map(({ id, label }) => (
 				<li key={id}>
-				<a
-					href={`#${id}`}
-					onClick={closeMobileMenu}
-					className={`text-sm md:text-base font-bold uppercase transition-all duration-300 hover:text-white hover:underline decoration-wavy decoration-[#87CEEB] ${
-					activeSection === id ? 'text-white underline decoration-[#87CEEB]' : 'text-[#FDFD96]'
-					}`}
-				>
-					{label}
-				</a>
+					<a
+						href={`#${id}`}
+						onClick={closeMobileMenu}
+						className={cn(
+							"text-sm xl:text-base font-bold uppercase transition-all duration-300 hover:text-white hover:underline",
+							activeSection === id ? 'text-accent1 ' : 'text-accent2'
+						)}
+					>
+						{label}
+					</a>
 				</li>
 			))}
 			</ul>

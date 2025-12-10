@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+@theme {
+    --color-bg1: #c15325;
+    --color-bg2: #c7707e;
+    --color-accent1: #87CEEB;
+    --color-accent2: #FDFD96;
+}
+
+html, body {
+    overscroll-behavior: none;
+}

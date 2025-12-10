@@ -14,9 +14,10 @@ export function randomRange(min: number, max: number) {
 	return lerp(min, max, Math.random());
 }
 
-export function inverseLerp(a: number, b: number, value: number) {
+export function inverseLerp(a: number, b: number, value: number, clamped: boolean = false) {
 	if (a === b) return 0;
-	return (value - a) / (b - a);
+	const progress = (value - a) / (b - a);
+	return clamped ? clamp(progress, 0, 1) : progress;
 }
 
 export function isBetween(value: number, min: number, max: number) {
