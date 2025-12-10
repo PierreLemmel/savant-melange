@@ -4,9 +4,32 @@
     --color-bg1: #c15325;
     --color-bg2: #c7707e;
     --color-accent1: #87CEEB;
-    --color-accent2: #FDFD96;
+    --color-accent2: #ffe603;
 }
 
 html, body {
     overscroll-behavior: none;
+}
+
+:root {
+    --portrait-rotate-speed: 3.5s;
+	--portrait-rotate-angle: 4.2deg;
+}
+
+@keyframes portrait-rotate {
+    from {
+        transform: rotate(calc(-1 * var(--portrait-rotate-angle)));
+    }
+    to {
+        transform: rotate(var(--portrait-rotate-angle));
+    }
+}
+
+
+.animate-portrait-rotate {
+    animation: portrait-rotate var(--portrait-rotate-speed) alternate infinite linear;
+}
+
+.animate-portrait-rotate-reverse {
+    animation: portrait-rotate var(--portrait-rotate-speed) alternate-reverse infinite linear;
 }

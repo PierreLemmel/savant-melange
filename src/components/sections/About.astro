@@ -1,4 +1,6 @@
 ---
+import { cn } from '../../lib/utils';
+import PopingPortrait from '../PopingPortrait';
 import Section from './Section.astro';
 
 const {
@@ -6,8 +8,33 @@ const {
     leftToRight = true,
 } = Astro.props;
 
-const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+const names = [
+    "Alice",
+    "Damien",
+    "Sylvie",
+    "Pierre",
+]
 ---
 <Section id="qui-sommes-nous" title="Qui sommes-nous ?" class={className} leftToRight={leftToRight}>
-    {lorem}
+    
+    <p>Savant Mélange est une compagnie fondée en août 2025 par Alice Carliez, Damien Bestard, Pierre Lemmel et Sylvie Nadin. Tous les quatre, à la fois comédien-nes et scientifiques, se sont réuni-es autour d’une envie commune : faire dialoguer la scène et la science, mêler leurs deux univers professionnels au sein d’un même projet. </p>
+
+    <div class={cn(
+        "grid gap-4 lg:gap-8",
+        "grid-cols-2 lg:grid-cols-4",
+        "my-6"
+    )}>
+        {names.map((name, index) => (
+            <PopingPortrait client:load name={name.toLowerCase()} offset={index} />
+        ))}
+    </div>
+
+    <p>Leurs parcours reflètent cette diversité : Alice et Sylvie sont formées en journalisme et médiation scientifique, Damien est docteur en acoustique et titulaire d’un DU de médiation scientifique, tandis que Pierre, ingénieur, s’est également formé aux sciences du numérique.</p>
+    
+    <p>Mais leurs compétences ne s’arrêtent pas là. Damien est aussi musicien et improvise les ambiances sonores des spectacles. Avec sa casquette de technicien son, vidéo et lumière, Pierre crée des scénographies mélant ambiances lumineuses et visuelles.
+    Tou-tes évoluent dans le monde de l’improvisation théâtrale professionnelle depuis plusieurs années.
+    </p>
+
+    <p>Habitué-es à côtoyer le monde de la recherche, iels ont souhaité mettre leurs compétences d’improvisateurices au service de la vulgarisation scientifique, pour transmettre la science de manière vivante, sensible et ludique.</p>
 </Section>

@@ -143,12 +143,16 @@ export default function ScrollAnimatedSection(props: ScrollAnimatedSectionProps)
         className={cn(
             "relative",
             "will-change-transform",
+            "transition-all duration-300 ease-in-out",
             leftToRight ? "origin-top-left" : "origin-top-right",
             className
         )}
     >
         <div
-            className="absolute w-full"
+            className={cn(
+                "absolute w-full",
+                "transition-all duration-300 ease-in-out"
+            )}
             ref={contentRef}
         >
             {children}

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { clamp, cn, inverseLerp, lerp } from "../lib/utils";
 
 const animValues = {
@@ -66,14 +66,15 @@ export default function InitialBanneer() {
     )} ref={containerRef}>
         <div ref={contentRef} className={cn(
             "w-full h-full", 
-            "flex flex-col justify-center items-center"
+            "flex flex-col justify-center items-center",
+            "transition-all duration-300 ease-in-out"
         )}>
             <h1 className={cn(
                 "text-6xl md:text-8xl lg:text-8xl xl:text-[7.4rem] 2xl:text-[9.5rem]",
                 "font-black uppercase tracking-tighter text-accent2 text-center",
                 "-rotate-1"
             )}>
-                Savant Mélange
+                Savant mélange
             </h1>
             <h2 className={cn(
                 "text-2xl md:text-3xl xl:text-[2.5rem] 2xl:text-[3.5rem]",
