@@ -3,6 +3,14 @@ import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation';
 import CurvyBackground from '../components/CurvyBackground';
 import { cn } from '../lib/utils';
+import { getSiteInfos } from '../lib/infos';
+
+const {
+    siteName,
+    companyName,
+    contactEmail
+} = getSiteInfos();
+
 ---
 
 <Layout title="Mentions Légales - Savant Mélange">
@@ -13,42 +21,101 @@ import { cn } from '../lib/utils';
         "relative z-10 pt-32 px-4 md:px-8 max-w-5xl mx-auto space-y-8 pb-16"
     )}>
         <section class="flex flex-col space-y-6">
-            <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#FDFD96]">
+            <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-text-color">
                 Mentions Légales
             </h1>
             
-            <div class="space-y-6 text-[#FDFD96]">
+            <div class="space-y-6 text-text-color">
+                <p class="text-base leading-relaxed">
+                    Conformément aux dispositions de la loi n° 2004-575 du 21 juin 2004 pour la confiance en l'économie numérique, il est précisé aux utilisateurs du site {siteName} l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi.
+                </p>
+
                 <div>
-                    <h2 class="text-2xl font-bold mb-3">Lorem Ipsum</h2>
-                    <p class="text-base leading-relaxed">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    </p>
+                    <h2 class="text-2xl font-bold mb-3">1. Éditeur du site</h2>
+                    <div class="text-base leading-relaxed space-y-2">
+                        <p>Compagnie {companyName}</p>
+                        <p>Directeur de la publication : Pierre Lemmel</p>
+                        <p>Email de contact : <a href="mailto:{contactEmail}" class="text-accent1 hover:text-white underline">{contactEmail}</a></p>
+                    </div>
                 </div>
-                
+
                 <div>
-                    <h2 class="text-2xl font-bold mb-3">Sed Ut Perspiciatis</h2>
-                    <p class="text-base leading-relaxed">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+                    <h2 class="text-2xl font-bold mb-3">2. Hébergement</h2>
+                    <p class="text-base leading-relaxed mb-2">
+                        Le site {siteName} est hébergé par :
                     </p>
+                    <div class="text-base leading-relaxed space-y-1">
+                        <p>Netlify, Inc.</p>
+                        <p>510 3rd Street, Suite 210,</p>
+                        <p>San Francisco, CA 94107, USA</p>
+                        <p>Site web : <a href="https://www.netlify.com" class="text-accent1 hover:text-white underline">https://www.netlify.com</a></p>
+                    </div>
                 </div>
-                
+
                 <div>
-                    <h2 class="text-2xl font-bold mb-3">Neque Porro</h2>
-                    <p class="text-base leading-relaxed">
-                        Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
-                    </p>
+                    <h2 class="text-2xl font-bold mb-3">3. Propriété intellectuelle et contrefaçons</h2>
+                    <div class="text-base leading-relaxed space-y-3">
+                        <p>
+                            {companyName} est propriétaire des droits de propriété intellectuelle ou détient les droits d'usage sur tous les éléments accessibles sur le site, notamment les textes, images, graphismes, logo, icônes, sons, logiciels.
+                        </p>
+                        <p>
+                            Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite, sauf autorisation écrite préalable de : {companyName}.
+                        </p>
+                        <p>
+                            Toute exploitation non autorisée du site ou de l'un quelconque des éléments qu'il contient sera considérée comme constitutive d'une contrefaçon et poursuivie conformément aux dispositions des articles L.335-2 et suivants du Code de Propriété Intellectuelle.
+                        </p>
+                    </div>
                 </div>
-                
+
                 <div>
-                    <h2 class="text-2xl font-bold mb-3">At Vero Eos</h2>
+                    <h2 class="text-2xl font-bold mb-3">4. Données personnelles et politique de confidentialité (RGPD)</h2>
+                    <div class="text-base leading-relaxed space-y-3">
+                        <p>
+                            Le site {siteName} est un site purement consultatif et informatif.
+                        </p>
+                        <p>
+                            Nous ne collectons aucune donnée personnelle de nos utilisateurs par le biais de formulaires, de cookies de suivi tiers (comme Google Analytics) ou d'autres mécanismes de collecte active.
+                        </p>
+                        <p>
+                            Votre navigation sur notre site est anonyme.
+                        </p>
+                        <p>
+                            Cependant, comme tout site web, notre hébergeur Netlify peut enregistrer des informations techniques anonymes (comme l'adresse IP tronquée, le type de navigateur, les pages consultées) à des fins de fonctionnement et de sécurité du service, et pour des statistiques agrégées et anonymes de trafic. Ces données ne permettent pas de vous identifier personnellement et sont gérées par Netlify conformément à sa propre politique de confidentialité.
+                        </p>
+                        <p>
+                            Si vous nous contactez par e-mail via l'adresse indiquée sur le site, les données que vous nous transmettez (votre nom, votre adresse e-mail, le contenu de votre message) seront utilisées uniquement pour répondre à votre demande. Elles ne seront pas stockées au-delà de la durée nécessaire au traitement de votre demande et ne seront pas utilisées à des fins commerciales ou transmises à des tiers.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-bold mb-3">5. Liens hypertextes et cookies</h2>
+                    <div class="text-base leading-relaxed space-y-3">
+                        <p>
+                            Le site {siteName} contient des liens hypertextes vers d'autres sites (par exemple, vers des billetteries externes, des partenaires, des réseaux sociaux). {companyName} dégage toute responsabilité à propos de ces liens externes ou des liens créés par d'autres sites vers {siteName}.
+                        </p>
+                        <p>
+                            <strong>Cookies :</strong>
+                        </p>
+                        <p>
+                            Notre site n'utilise pas de cookies actifs pour collecter des informations personnelles ou suivre votre navigation à des fins marketing ou statistiques.
+                        </p>
+                        <p>
+                            Des cookies techniques peuvent être déposés par notre hébergeur Netlify pour assurer le bon fonctionnement et la sécurité du site. Ces cookies sont essentiels et ne peuvent être désactivés. Ils ne collectent aucune donnée personnelle.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-bold mb-3">6. Droit applicable et attribution de juridiction</h2>
                     <p class="text-base leading-relaxed">
-                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+                        Tout litige en relation avec l'utilisation du site {siteName} est soumis au droit français. En dehors des cas où la loi ne le permet pas, il est fait attribution exclusive de juridiction aux tribunaux compétents de Paris.
                     </p>
                 </div>
             </div>
             
             <div class="pt-8">
-                <a href="/" class="text-[#87CEEB] hover:text-white underline font-bold transition-colors">
+                <a href="/" class="text-accent1 hover:text-white underline font-bold transition-colors">
                     ← Retour à l'accueil
                 </a>
             </div>

@@ -6,12 +6,15 @@ import Project from '../components/sections/Project.astro';
 import About from '../components/sections/About.astro';
 import UpcomingDates from '../components/sections/UpcomingDates.astro';
 import PastEvents from '../components/sections/PastEvents.astro';
-import ProSpace from '../components/sections/ProSpace.astro';
+import Contact from '../components/sections/Contact.astro';
 import { cn } from '../lib/utils';
 import InitialBanneer from '../components/InitialBanneer';
+import { hasUpcomingDates } from '../lib/infos';
 
 let i = 0;
 const alternateLeftRight = () => i++ % 2 === 0;
+
+const upcomingDates = hasUpcomingDates();
 ---
 
 <Layout title="Savant Mélange - Théâtre d'Improvisation">
@@ -34,13 +37,13 @@ const alternateLeftRight = () => i++ % 2 === 0;
 		)}>
 			<Project leftToRight={alternateLeftRight()} />
 			<About leftToRight={alternateLeftRight()} />
-			<UpcomingDates leftToRight={alternateLeftRight()} />
+			{upcomingDates && <UpcomingDates leftToRight={alternateLeftRight()} />}
 			<PastEvents leftToRight={alternateLeftRight()} />
-			<ProSpace leftToRight={alternateLeftRight()} />
+			<Contact leftToRight={alternateLeftRight()} />
 		</section>
 		
 
-		<footer class="text-center text-accent2 font-bold py-5 mt-8">
+		<footer class="text-center text-accent2 font-bold py-5 mt-[30vh]">
 			<p>&copy; {new Date().getFullYear()} Savant Mélange. Tous droits réservés.
 				<a href="/mentions-legales" class="underline hover:text-white">Mentions Légales</a>
 			</p>

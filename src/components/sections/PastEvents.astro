@@ -1,11 +1,70 @@
 ---
+import { cn } from '../../lib/utils';
+import PartnersIcons, { type Partner } from '../PartnersIcons';
+import PhotoCaroussel from '../PhotoCaroussel';
 import Section from './Section.astro';
 
 const {
     class: className,
     leftToRight = true,
 } = Astro.props;
+
+const imgCount = 5;
+
+const images = Array.from({ length: imgCount }, (_, index) => `/img/passed/passed-${(index + 1).toString().padStart(2, '0')}.jpg`);
+
+const partners: Partner[] = [
+    {
+        name: "CNAM",
+        logo: "cnam",
+        url: "https://www.cnam.fr/",
+        addBackground: true,
+    },
+    {
+        name: "MUAM",
+        logo: "muam",
+        url: "https://phototheque.arts-et-metiers.net/",
+        addBackground: true,
+    },
+    {
+        name: "Le Festival Double Science",
+        logo: "double-science",
+        url: "https://www.festivaldoublescience.fr/",
+        moreWidth: true,
+    },
+    {
+        name: "Le Curieux festival",
+        logo: "curieux-festival",
+        url: "https://lecurieuxfestival.com/",
+        moreHeight: true,
+    },
+    {
+        name: "Festival Atmosphères",
+        logo: "atmospheres",
+        url: "https://www.atmospheresfestival.com/",
+        moreHeight: true,
+    },
+]
 ---
 <Section id="passes" title="Événements passés" class={className} leftToRight={leftToRight}>
-    Retour sur nos succès de 2025...
+    <p>Retour en images sur nos dates passées...</p>
+
+    <PhotoCaroussel
+        client:load
+        images={images}
+        autoPlay={true}
+        autoPlayInterval={5000}
+        showIndicators={true}
+        showNavigation={true}
+        className="mt-6 max-w-2xl"
+    />
+
+    <p class={cn(
+        "text-center",
+        "mt-8 mb-4",
+        "text-xl md:text-3xl text-white",
+    )}>
+        Ils nous ont fait confiance :
+    </p>
+    <PartnersIcons client:load partners={partners} className="justify-center" />
 </Section>

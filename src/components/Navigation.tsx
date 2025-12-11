@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { cn } from '../lib/utils';
+import { hasUpcomingDates } from '../lib/infos';
 
-const sections = [
+const hasUpcoming = hasUpcomingDates();
+
+const sections = hasUpcoming ? [
 	{ id: 'le-projet', label: 'Le Projet' },
 	{ id: 'qui-sommes-nous', label: 'Qui Sommes-nous ?' },
 	{ id: 'dates', label: 'Dates à venir' },
 	{ id: 'passes', label: 'Événements passés' },
-	{ id: 'pro', label: 'Espace Pro' },
+	{ id: 'contact', label: 'Contact' },
+] : [
+	{ id: 'le-projet', label: 'Le Projet' },
+	{ id: 'qui-sommes-nous', label: 'Qui Sommes-nous ?' },
+	{ id: 'passes', label: 'Événements passés' },
+	{ id: 'contact', label: 'Contact' },
 ];
 
 export default function Navigation() {
