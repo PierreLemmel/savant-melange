@@ -55,10 +55,14 @@ export default function Navigation() {
 	)}>
 		<div className="max-w-7xl mx-auto flex flex-col xl:flex-row justify-between items-center gap-4">
 			<div className="w-full xl:w-auto flex justify-between items-center">
-				<div className="text-2xl font-bold uppercase tracking-tighter text-accent2 drop-shadow-md">
-					<a href="#" className="hover:text-white transition-colors">Savant Mélange</a>
-					<span className="mx-2 text-accent1">{'>'}</span>
-					<span className="text-accent1 text-lg">{sections.find(s => s.id === activeSection)?.label || 'Accueil'}</span>
+				<div className={cn(
+					"text-2xl md:text-2xl",
+					"font-bold uppercase tracking-tighter text-accent2 drop-shadow-md",
+					"flex items-center min-w-0"
+				)}>
+					<a href="#" className="hover:text-white transition-colors shrink-0">Savant Mélange</a>
+					<span className="mx-2 text-accent1 shrink-0">{'>'}</span>
+					<span className="text-accent1 text-lg truncate">{sections.find(s => s.id === activeSection)?.label || 'Accueil'}</span>
 				</div>
 				
 				<button
@@ -90,12 +94,13 @@ export default function Navigation() {
 				isMobileMenuOpen ? 'flex' : 'hidden'
 			)}>
 			{sections.map(({ id, label }) => (
-				<li key={id}>
+				<li key={id} className="min-w-0">
 					<a
 						href={`#${id}`}
 						onClick={closeMobileMenu}
 						className={cn(
 							"text-sm xl:text-base font-bold uppercase transition-all duration-300 hover:text-white hover:underline",
+							"block truncate",
 							activeSection === id ? 'text-accent1 ' : 'text-accent2'
 						)}
 					>

@@ -22,7 +22,7 @@ const upcomingDates = hasUpcomingDates();
 	<Navigation client:load />
 	
 	<main class={cn(
-		"w-full",
+		"w-full overflow-x-hidden",
 		"relative z-10",
 		"flex flex-col items-center",
 	)}>
@@ -33,7 +33,7 @@ const upcomingDates = hasUpcomingDates();
 			"flex flex-col items-stretch",
 			"mx:auto max-w-5xl",
 			"px-4 md:px-8",
-			"gap-8 lg:gap-20"
+			"gap-14 lg:gap-20"
 		)}>
 			<Project leftToRight={alternateLeftRight()} />
 			<About leftToRight={alternateLeftRight()} />
@@ -43,7 +43,10 @@ const upcomingDates = hasUpcomingDates();
 		</section>
 		
 
-		<footer class="text-center text-accent2 font-bold py-5 mt-[30vh]">
+		<footer class={cn(
+			"text-center text-accent2 font-bold py-5",
+			"mt-[10vh] md:mt-[20vh] lg:mt-[30vh]"
+		)}>
 			<p>&copy; {new Date().getFullYear()} Savant Mélange. Tous droits réservés.
 				<a href="/mentions-legales" class="underline hover:text-white">Mentions Légales</a>
 			</p>
